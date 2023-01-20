@@ -46,6 +46,7 @@ header {
 
 .content {
     grid-area: content;
+    padding: 20px;
     background: lightgrey;
 }
 
@@ -86,6 +87,11 @@ footer {
         border: 1px solid $primary-color;
         background: white;
         color: $primary-color;
+    }
+
+    &-danger {
+        background-color: $text-error;
+        color: white;
     }
 }
 
