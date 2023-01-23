@@ -3,6 +3,11 @@ import './form.scss';
 const form = document.querySelector("form");
 const errorList = document.querySelector("#errors");
 let errors = [];
+// const cancelBtn = document.querySelector("btn-secondary");
+
+// cancelBtn.addEventListener('click', () => {
+//     location.assign('./index.html');
+// })
 
 const formIsValid = (data) => {
     if(!data.author || !data.category || !data.content || !data.title) {
@@ -39,8 +44,10 @@ form.addEventListener('submit', async event => {
                 headers: { 'Content-Type' : 'application/json'},
                 body: json
             })
-            const body = await response.json();
-            form.reset();
+            if (response.status < 299) {
+                location.assign('./index.html');
+
+            }
             console.log(body);
         } catch (error) {
             console.log(error);            
