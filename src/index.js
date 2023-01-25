@@ -2,9 +2,16 @@ import './index.scss';
 
 const articlesContainer = document.querySelector('.articles-container');
 const categoriesContainer = document.querySelector('.categories');
+const selectElement = document.getElementById("sort");
 
 let filter;
-let articles
+let articles;
+let sortedBy = "desc";
+
+selectElement.addEventListener('change', event => {
+    sortedBy = selectElement.value;
+    fetchArticles();
+} )
 
 const displayArticles = () => {
     const articlesDOM = articles.filter(article => {
@@ -76,6 +83,10 @@ const displayMenuCategories = (categoriesArray) => {
     const liElements = categoriesArray.map((categoryElement) => {
         const li = document.createElement("li");
         li.innerHTML = `${categoryElement[0]} ( <strong>${categoryElement[1]}</strong> )`;
+
+        if(categoryElement[0] === filter) {
+            li.classList.add('active');
+        }
         li.addEventListener('click', event => {
             if (filter === categoryElement[0]){
                 liElements.forEach(li => li.classList.remove('active'));
@@ -116,7 +127,7 @@ displayMenuCategories(categoriesArray);
 const fetchArticles = async () => {
     // fonction asynchrone qui recupere les donnees depuis l'API
     try {
-      const response = await fetch("https://restapi.fr/api/dwwm_dq");
+      const response = await fetch(`https://restapi.fr/api/dwwm_dq?sort=createdAt:${sortedBy}`);
       articles = await response.json(); // <=== on change 'const' en 'let'
   
       if (!(articles instanceof Array)) {
