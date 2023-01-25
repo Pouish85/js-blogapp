@@ -611,7 +611,7 @@ const initForm = async () => {
 const fillForm = article => {
   const author = document.querySelector('input[name=author]');
   const image = document.querySelector('input[name=profilPic]');
-  const category = document.querySelector('input[name=category]');
+  const category = document.querySelector('select[name=category]');
   const title = document.querySelector('input[name=title]');
   const content = document.querySelector('textarea');
   author.value = article.author;
@@ -650,7 +650,7 @@ form.addEventListener('submit', async event => {
       const json = JSON.stringify(data);
       let response;
       if (articleId) {
-        response = await fetch("https://restapi.fr/api/dwwm_dq", {
+        response = await fetch(`https://restapi.fr/api/dwwm_dq/${articleId}`, {
           method: "PATCH",
           headers: {
             'Content-Type': 'application/json'
@@ -669,7 +669,6 @@ form.addEventListener('submit', async event => {
       if (response.status < 299) {
         location.assign('./index.html');
       }
-      console.log(body);
     } catch (error) {
       console.log(error);
     }
