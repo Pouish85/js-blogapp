@@ -37,7 +37,6 @@ const fillForm = (article) => {
 
 initForm();
 
-
 cancelBtn.addEventListener('click', () => {
     location.assign('./index.html');
 });
@@ -62,10 +61,8 @@ const formIsValid = (data) => {
 
 form.addEventListener('submit', async event => {
     event.preventDefault();
-
     const formData = new FormData(form);
     const entries = formData.entries();
-
     const data = Object.fromEntries(entries);
 
     if (formIsValid(data)) {

@@ -2,20 +2,47 @@
 @import './assets/styles/mixins';
 
 .content {
-    background-color: $divider-color;
 
-    @include flex;
+    @include flex($align: flex-start);
+
+    .sidebar {
+        flex: 0 0 250px;
+        margin: 100px 30px;
+        padding: 30px;
+        border: 1px solid $primary-color;
+        border-radius: 5px;
+        background: white;
+
+        .categories {
+
+            li {
+                margin-bottom: 15px;
+
+                &:hover {
+                    color: $primary-color;
+                    transition: color .2s;
+                    cursor: pointer;
+
+                    strong {
+                        color: $primary-color;
+                    }
+                }
+            }
+        }
+    }
 
     .articles-container {
         max-width: 800px;
         width: 100%;
         margin: 5rem 0 10rem;
+        flex: 1;
 
         .article {
             background: white;
             box-shadow: $box-shadow;
             border-radius: 1rem;
             padding: 0 5rem;
+            border: 1px solid $primary-color;
             margin-top: 7rem;
 
             @include flex(column);
@@ -42,7 +69,6 @@
             &-content {
                 max-width: 550px;
                 white-space: pre-line;
-
             }
 
             &-actions {
@@ -57,7 +83,5 @@
                 margin-left: 1rem;
             }
         }
-
-
     }
 }
