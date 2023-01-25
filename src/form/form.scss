@@ -39,7 +39,7 @@
                 margin-bottom: 1rem;
             }
 
-            input, textarea {
+            input, textarea, select{
                 width: 100%;
                 border: 1px solid $divider-color;
                 outline: none;
@@ -52,7 +52,7 @@
                 }
             }
 
-            input {
+            input, select {
                 padding: 5px 10px;
             }
 
