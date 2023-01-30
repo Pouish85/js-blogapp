@@ -1,4 +1,5 @@
 import './index.scss';
+import { openModal } from './assets/javascript/modal';
 
 const articlesContainer = document.querySelector('.articles-container');
 const categoriesContainer = document.querySelector('.categories');
@@ -48,20 +49,25 @@ const displayArticles = () => {
     const deleteBtns = articlesContainer.querySelectorAll('.btn-danger');
     const editBtns = articlesContainer.querySelectorAll('.btn-primary')
 
-    deleteBtns.forEach(button => {
+    deleteBtns.forEach((button) => {
         button.addEventListener('click', async event =>
     {
         event.preventDefault();
-        try {
-            const target = event.target;
-            console.log(target);
-            const articleId = target.dataset.id;
-            const response = await fetch(`https://restapi.fr/api/dwwm_dq/${articleId}`, {method: 'DELETE'});
-            const body = await response.json();
-            fetchArticles();
-            console.log(body);            
-        } catch (error) {
-            console.log(error);
+        window.scrollTo(0, 0);
+        const answer = await openModal("Etes-vous sûr de vouloir supprimer cet article?");
+
+        if(answer) {
+            try {
+                const target = event.target;
+                console.log(target);
+                const articleId = target.dataset.id;
+                const response = await fetch(`https://restapi.fr/api/dwwm_dq/${articleId}`, {method: 'DELETE'});
+                const body = await response.json();
+                fetchArticles();
+                console.log(body);            
+            } catch (error) {
+                console.log(error);
+            }
         }
     })
     })

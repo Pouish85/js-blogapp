@@ -2,6 +2,66 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/assets/javascript/modal.js":
+/*!****************************************!*\
+  !*** ./src/assets/javascript/modal.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "openModal": () => (/* binding */ openModal)
+/* harmony export */ });
+let calc;
+let modal;
+let cancelBtn;
+let confirmBtn;
+const body = document.querySelector('body');
+const createCalc = () => {
+  calc = document.createElement("div");
+  calc.classList.add("calc");
+};
+const createModal = question => {
+  modal = document.createElement("div");
+  modal.classList.add('modal');
+  modal.innerHTML = `<p>${question}</p>`;
+  cancelBtn = document.createElement("btn");
+  cancelBtn.classList.add("btn", "btn-secondary");
+  cancelBtn.innerText = "Annuler";
+  cancelBtn.addEventListener('click', () => {
+    calc.remove();
+  });
+  confirmBtn = document.createElement("btn");
+  confirmBtn.classList.add("btn", "btn-primary");
+  confirmBtn.innerText = "Confirmer";
+  modal.addEventListener('click', event => {
+    event.stopPropagation();
+  });
+  modal.append(cancelBtn, confirmBtn);
+};
+function openModal(question) {
+  createCalc();
+  createModal(question);
+  calc.append(modal);
+  body.append(calc);
+  return new Promise((resolve, reject) => {
+    calc.addEventListener('click', () => {
+      resolve(false);
+      calc.remove();
+    });
+    cancelBtn.addEventListener('click', () => {
+      resolve(false);
+      calc.remove();
+    });
+    confirmBtn.addEventListener('click', () => {
+      resolve(true);
+      calc.remove();
+    });
+  });
+}
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/form/form.scss":
 /*!*********************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/form/form.scss ***!
@@ -589,6 +649,8 @@ var __webpack_exports__ = {};
   \**************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./form.scss */ "./src/form/form.scss");
+/* harmony import */ var _assets_javascript_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../assets/javascript/modal */ "./src/assets/javascript/modal.js");
+
 
 const form = document.querySelector("form");
 const errorList = document.querySelector("#errors");
@@ -621,8 +683,12 @@ const fillForm = article => {
   content.value = article.content;
 };
 initForm();
-cancelBtn.addEventListener('click', () => {
-  location.assign('./index.html');
+cancelBtn.addEventListener('click', async () => {
+  window.scrollTo(0, 0);
+  const answer = await (0,_assets_javascript_modal__WEBPACK_IMPORTED_MODULE_1__.openModal)("Attention, en annulant vous perdre tout votre article, confimez-vous l'annulation?");
+  if (answer) {
+    location.assign('./index.html');
+  }
 });
 const formIsValid = data => {
   if (!data.author || !data.category || !data.content || !data.title) {
